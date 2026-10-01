@@ -9,7 +9,7 @@ from matplotlib.colors import ListedColormap
 
 
 # ============================================================
-# MAZE LEGEND
+# Definir o mapa do labirinto (ambiente) e sua legenda
 # ============================================================
 # 0 = free path (caminho livre)
 # 1 = wall (parede)
@@ -29,10 +29,16 @@ MAZE = np.array([
     [1, 1, 1, 1, 1, 1, 1, 1, 1],
 ])
 
-
+# ============================================================
+# Definir estrutura de dado para posição 2D
+# ============================================================
 
 # Type alias para Position (linha, coluna), o qual é usado para representacar as posições do Agente, objetivos e objetos. Em Java, isso seria uma nova classe ou record.
 Position = Tuple[int, int]  
+
+# ============================================================
+# Ações do agente
+# ============================================================
 
 # ações do agente: (delta_linha, delta_coluna)
 ACTIONS = {
@@ -41,6 +47,11 @@ ACTIONS = {
     "LEFT":  (0, -1), # ir para a esquerda
     "RIGHT": (0, 1),  # ir para a direita
 }
+
+
+# ============================================================
+# Classes e funções para representar o agente
+# ============================================================
 
 
 # uma classe para representar o agente
@@ -105,6 +116,11 @@ def reconstruct_path(
     path.reverse()
     return path
 
+# ============================================================
+# Função usada para  fazer planejamento
+# ============================================================
+
+
 # função para realizar a busca A* no labirinto
 def astar_search(maze: np.ndarray, start: Position, goal: Position) -> List[Tuple[str, Position]]:
     frontier = []
@@ -133,6 +149,11 @@ def astar_search(maze: np.ndarray, start: Position, goal: Position) -> List[Tupl
                 came_from[next_pos] = (current, action)
 
     return []
+
+# ============================================================
+# Funções para dezenhar o mapa
+# ============================================================
+
 
 # Desenha o mapa do labirinto, o agente, o caminho planejado e o caminho visitado usando Matplotlib
 def draw_maze(
@@ -188,6 +209,13 @@ def draw_maze(
 
     plt.title(title)
     plt.pause(0.4)
+
+
+
+# ============================================================
+# Função usada para executar o agente e interagir com o mapa
+# ============================================================
+
 
 # função principal para executar o agente no labirinto
 def main() -> None:

@@ -12,9 +12,9 @@ from matplotlib.patches import Circle, Rectangle
 
 
 # ============================================================
-# CONTENT MATRIX VALUES
+# Definir Valores no mapa
 # ============================================================
-# This matrix represents what exists inside each cell.
+# Esta matriz representa o que existe dentro de cada célula.
 
 EMPTY = 0
 FINN = 1
@@ -23,32 +23,22 @@ TRAP = 3
 
 
 # ============================================================
-# VALID MOVEMENT BIT MASKS
+# Ações permitidas para o cliente
 # ============================================================
-# These values can be combined.
-#
-# Example:
-# RIGHT | DOWN means the agent can move right and down.
-
 UP = 1
 RIGHT = 2
 DOWN = 4
 LEFT = 8
 
-
-ROWS = 5
-COLS = 5
-
-
 # ============================================================
-# MATRIX 1: CONTENT OF THE MAP
+# MATRIZ 1: Definição do conteúdo do mapa
 # ============================================================
-# Human coordinates:
+# Coordenadas humanas:
 #
-# Finn starts at row 1, column 1
-# Jake starts at row 1, column 5
+# Finn começa na linha 1, coluna 1
+# Jake começa na linha 1, coluna 5
 #
-# Python uses zero-based indexing:
+# O Python utiliza indexação baseada em zero:
 # Finn = content[0][0]
 # Jake = content[0][4]
 
@@ -61,6 +51,13 @@ CONTENT = np.array([
 ])
 
 
+# ============================================================
+# Definição de posição e passos para o plano
+# ============================================================
+
+ROWS = 5
+COLS = 5
+
 Position = Tuple[int, int]  # row, col
 
 
@@ -71,7 +68,7 @@ class Step:
 
 
 # ============================================================
-# VALID MOVEMENT MATRIX
+# Funções para validar movimentos e declarar paredes
 # ============================================================
 
 def create_valid_moves() -> np.ndarray:
@@ -81,7 +78,7 @@ def create_valid_moves() -> np.ndarray:
     """
     moves = np.zeros((ROWS, COLS), dtype=int)
 
-    # First, allow all movements that stay inside the grid.
+    # Primeiro, permita todos os movimentos que permaneçam dentro da grade.
     for row in range(ROWS):
         for col in range(COLS):
             value = 0
@@ -97,10 +94,10 @@ def create_valid_moves() -> np.ndarray:
 
             moves[row, col] = value
 
-    # Then, block specific passages according to the maze walls.
+    # Em seguida, bloqueie passagens específicas de acordo com as paredes do labirinto. 
     #
-    # Human coordinates use rows/columns 1..5.
-    # Python coordinates use rows/columns 0..4.
+    # As coordenadas para humanos utilizam linhas/colunas de 1 a 5.
+    # As coordenadas do Python utilizam linhas/colunas de 0 a 4.
 
     # Vertical walls in the first row.
     block_passage(moves, 0, 1, RIGHT)  # between (1,2) and (1,3)
@@ -191,7 +188,7 @@ VALID_MOVES = create_valid_moves()
 
 
 # ============================================================
-# SEARCH FUNCTIONS
+# Funções de busca para gerar o plano
 # ============================================================
 
 def find_cell(content: np.ndarray, value: int) -> Position:
@@ -288,7 +285,7 @@ def astar_search(
 
 
 # ============================================================
-# VISUALIZATION FUNCTIONS
+# Funções para desenhar mapa
 # ============================================================
 
 def load_image(filename: str):
